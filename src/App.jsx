@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import NotFound from './pages/NotFound'
 import PublicRoutes from "./components/PublicRoutes";
 import PrivateRoutes from "./components/PrivateRoutes";
+import "./styles/utility.css";
+import "./styles/main.css";
 
 function App() {
   return (

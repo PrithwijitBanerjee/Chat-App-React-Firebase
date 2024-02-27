@@ -1,0 +1,19 @@
+/* SignIn.css */
+.header-title {
+    font-size: 24px; /* Default font size */
+  }
+  
+  /* Media query for tablet devices */
+  @media (min-width: 768px) {
+    .header-title {
+      font-size: 32px; /* Adjust font size for tablet devices */
+    }
+  }
+  
+  /* Media query for desktop devices */
+  @media (min-width: 992px) {
+    .header-title {
+      font-size: 48px; /* Adjust font size for desktop devices */
+    }
+  }
+  
