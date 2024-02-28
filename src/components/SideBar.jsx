@@ -1,21 +1,26 @@
 import React, { useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import "../styles/sidebar.css";
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useProfileContext } from '../context/profile.context';
 import { auth } from '../misc/firebase';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import Divider from './Divider';
+import EditableInput from './EditableInput';
 
 const SideBar = ({ show, handleClose }) => {
     const navigate = useNavigate();
     const { profile } = useProfileContext();
+    const onSaveChanges = async newData => {
+        console.log("New Editable data: ",newData);
+    }
     const onSignOut = useCallback(() => {
         auth.signOut()
             .then(() => {
                 handleClose();
-                toast.success(`${profile.name} has signed out successfully!`, {
+                toast.success(`${profile?.name} has signed out successfully!`, {
                     theme: 'colored',
                     position: 'top-center'
                 });
@@ -25,7 +30,7 @@ const SideBar = ({ show, handleClose }) => {
                 toast.error('Sign out failed. Please try again.');
             });
         handleClose();
-    }, [handleClose,navigate,profile]);
+    }, [handleClose, navigate, profile]);
     return (
         <div className={`sidebar ${show ? 'show' : ''}`}>
             <button className="close-btn" onClick={handleClose}>
@@ -35,24 +40,35 @@ const SideBar = ({ show, handleClose }) => {
             <div className='mt-2 ms-4'>
                 <h3>User DashBoard</h3>
             </div>
+            <Divider />
             {/* header section */}
             <Container className='mt-5'>
                 <Row>
                     <Col className='ms-4'>
-                        <h4>Hi! {profile.name}</h4>
+                        <h4>Hey, {profile?.name}</h4>
                     </Col>
                 </Row>
             </Container>
             {/* body section */}
             <Container>
                 <Row>
-                    <Col></Col>
+                    <Col>
+                        <EditableInput 
+                            name="nickname"
+                            initialValue={profile?.name}
+                            label={<h5 className='mt-5'>Nick Name</h5>}
+                            onSave={onSaveChanges}
+                        />
+                    </Col>
                 </Row>
             </Container>
             {/* footer */}
             <Container fluid>
                 <Row>
-                    <Col className='signout-btn'><Button className='btn-danger w-100' onClick={onSignOut}>Sign Out</Button></Col>
+                    <Col className='signout-btn'><Button className='btn-danger w-100' onClick={onSignOut}>
+                        <FontAwesomeIcon icon={faSignOutAlt} className="me-2" /> {/* Sign out icon */}
+                        Sign Out
+                    </Button></Col>
                 </Row>
             </Container>
         </div>
