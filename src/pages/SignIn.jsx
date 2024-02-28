@@ -23,12 +23,10 @@ const SignIn = () => {
             createdAt: serverTimestamp()
           })
       }
-      console.log({credential, userMeta});
       toast.success(`${credential.user.displayName} has signedIn Successfully`,{
         theme:'colored'
       });
     } catch (err) {
-        console.log(err?.message);
         toast.error(`${err?.message}`,{
           theme: 'colored',
           position: "top-center",
