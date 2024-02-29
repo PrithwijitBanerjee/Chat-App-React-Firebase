@@ -4,17 +4,29 @@ import { faTimes, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import "../styles/sidebar.css";
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useProfileContext } from '../context/profile.context';
-import { auth } from '../misc/firebase';
+import { auth, database } from '../misc/firebase';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 import Divider from './Divider';
 import EditableInput from './EditableInput';
+import {ref,set} from "firebase/database";
+import ProfileConnect from './ProfileConnect';
 
 const SideBar = ({ show, handleClose }) => {
-    const navigate = useNavigate();
     const { profile } = useProfileContext();
     const onSaveChanges = async newData => {
-        console.log("New Editable data: ",newData);
+        let userRef = ref(database, 'profiles/' + profile.uid + '/name');
+        try{
+            set(userRef, newData);
+          toast.success("Nick Name Edited Successfully!",{
+            theme: 'colored',
+            position:'top-center'
+          });
+        }catch(error){
+            toast.error(error.message,{
+                theme: 'colored',
+                position: 'top-center'
+            });
+        }
     }
     const onSignOut = useCallback(() => {
         auth.signOut()
@@ -24,13 +36,12 @@ const SideBar = ({ show, handleClose }) => {
                     theme: 'colored',
                     position: 'top-center'
                 });
-                navigate("/signIn");
             })
             .catch(error => {
                 toast.error('Sign out failed. Please try again.');
             });
         handleClose();
-    }, [handleClose, navigate, profile]);
+    }, [handleClose, profile]);
     return (
         <div className={`sidebar ${show ? 'show' : ''}`}>
             <button className="close-btn" onClick={handleClose}>
@@ -46,6 +57,7 @@ const SideBar = ({ show, handleClose }) => {
                 <Row>
                     <Col className='ms-4'>
                         <h4>Hey, {profile?.name}</h4>
+                        <ProfileConnect/>
                     </Col>
                 </Row>
             </Container>
@@ -53,10 +65,11 @@ const SideBar = ({ show, handleClose }) => {
             <Container>
                 <Row>
                     <Col>
+                        <Divider/>
                         <EditableInput 
                             name="nickname"
                             initialValue={profile?.name}
-                            label={<h5 className='mt-5'>Nick Name</h5>}
+                            label={<h5 className='mt-4'>Nick Name</h5>}
                             onSave={onSaveChanges}
                         />
                     </Col>

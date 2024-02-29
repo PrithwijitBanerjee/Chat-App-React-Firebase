@@ -1,7 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, database } from "../misc/firebase";
-import { onValue, ref } from "firebase/database";
+import { off, onValue, ref } from "firebase/database";
 
 const ProfileContext = createContext(null);  // creating the context....
 
@@ -12,6 +12,7 @@ export const ProfileProvider = ({ children }) => {
 
     useEffect(() => {
         let userRef;
+        let valueCallBack;
         const authUnSub = onAuthStateChanged(auth, user => {
             if (user) {
                 // User is signed in
@@ -19,7 +20,7 @@ export const ProfileProvider = ({ children }) => {
                 // onValue listener called that callback function on the userRef database 
                 // If any changes occurs in database like userRef...
                 userRef = ref(database, `profiles/${uid}`);
-                onValue(userRef, (snapshot) => {
+                valueCallBack = onValue(userRef, (snapshot) => {
                     if (!!snapshot.val()) {
                         const { createdAt, name } = snapshot.val();
                         const userData = {
@@ -34,9 +35,9 @@ export const ProfileProvider = ({ children }) => {
                 });
             } else {
                 // User is signed out
-                // if (userRef) {
-                //     userRef.off();
-                // }
+                if (userRef && valueCallBack) { // Check if both references exist before calling off
+                    off(userRef, valueCallBack); // Unsubscribe the listener callback
+                }
                 setProfile(null);
                 setIsLoading(false);
             }
@@ -45,9 +46,9 @@ export const ProfileProvider = ({ children }) => {
         // cleanUp function
         return () => {
             authUnSub();
-            // if (userRef) {
-            //     userRef.off();  // unsubscribe or disconnect the callback with the database reference
-            // }
+            if (userRef && valueCallBack) { // Check if both references exist before calling off
+                off(userRef, valueCallBack); // Unsubscribe the listener callback
+            }
         }
     }, []);
     //providing the chidren with context value ....
