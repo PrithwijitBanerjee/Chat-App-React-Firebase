@@ -10,6 +10,7 @@ import Divider from './Divider';
 import EditableInput from './EditableInput';
 import {ref,set} from "firebase/database";
 import ProfileConnect from './ProfileConnect';
+import AvatarUploadBtn from './Dashboard/AvatarUploadBtn';
 
 const SideBar = ({ show, handleClose }) => {
     const { profile } = useProfileContext();
@@ -72,6 +73,7 @@ const SideBar = ({ show, handleClose }) => {
                             label={<h5 className='mt-4'>Nick Name</h5>}
                             onSave={onSaveChanges}
                         />
+                        <AvatarUploadBtn />
                     </Col>
                 </Row>
             </Container>
