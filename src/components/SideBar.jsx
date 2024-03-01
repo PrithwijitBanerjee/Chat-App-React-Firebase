@@ -8,22 +8,25 @@ import { auth, database } from '../misc/firebase';
 import { toast } from 'react-toastify';
 import Divider from './Divider';
 import EditableInput from './EditableInput';
-import {ref,set} from "firebase/database";
+import { ref, set } from "firebase/database";
 import ProfileConnect from './ProfileConnect';
 import AvatarUploadBtn from './Dashboard/AvatarUploadBtn';
+import ProfileAvatar from './ProfileAvatar';
 
 const SideBar = ({ show, handleClose }) => {
     const { profile } = useProfileContext();
     const onSaveChanges = async newData => {
         let userRef = ref(database, 'profiles/' + profile.uid + '/name');
-        try{
+        try {
             set(userRef, newData);
-          toast.success("Nick Name Edited Successfully!",{
-            theme: 'colored',
-            position:'top-center'
-          });
-        }catch(error){
-            toast.error(error.message,{
+            if (newData !== profile?.name) {
+                toast.success("Nick Name Edited Successfully!", {
+                    theme: 'colored',
+                    position: 'top-center'
+                });
+            }
+        } catch (error) {
+            toast.error(error.message, {
                 theme: 'colored',
                 position: 'top-center'
             });
@@ -58,7 +61,7 @@ const SideBar = ({ show, handleClose }) => {
                 <Row>
                     <Col className='ms-4'>
                         <h4>Hey, {profile?.name}</h4>
-                        <ProfileConnect/>
+                        <ProfileConnect />
                     </Col>
                 </Row>
             </Container>
@@ -66,12 +69,19 @@ const SideBar = ({ show, handleClose }) => {
             <Container>
                 <Row>
                     <Col>
-                        <Divider/>
-                        <EditableInput 
+                        <Divider />
+                        <EditableInput
                             name="nickname"
                             initialValue={profile?.name}
                             label={<h5 className='mt-4'>Nick Name</h5>}
                             onSave={onSaveChanges}
+                        />
+                        <ProfileAvatar
+                            name={profile?.name}
+                            size="xlarge"
+                            shape="circle"
+                            image={profile?.avatar}
+                            style={{ backgroundColor: 'rgb(180, 182, 185)', color: '#ffffff', height: '130px', width: '130px' }}
                         />
                         <AvatarUploadBtn />
                     </Col>

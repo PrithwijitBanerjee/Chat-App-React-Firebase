@@ -1,13 +1,13 @@
 import React from 'react'
 import { Navigate } from "react-router-dom";
 import { useProfileContext } from '../context/profile.context';
-import Spinner from 'react-bootstrap/Spinner';
+import SpinnerLoader from '../utlis/SpinnerLoader';
 
 const PublicRoutes = ({ children }) => {
   let { profile, isLoading } = useProfileContext();
 
   if (isLoading && !profile) {
-    return <><Spinner animation="border" variant="success" /></>
+    return <SpinnerLoader />
   }
 
   if (profile && !isLoading) {

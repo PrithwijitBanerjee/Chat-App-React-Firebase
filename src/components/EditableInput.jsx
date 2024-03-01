@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 
+
 const EditableInput = ({ initialValue,
     onSave,
     placeholder = "Write your value",
@@ -12,7 +13,7 @@ const EditableInput = ({ initialValue,
     ...inputProps
 }) => {
     const [input, setInput] = useState(initialValue);
-    const [isEditable, setIsEditable] = useState(false);
+    const [isEditable, setIsEditable] = useState(false)
     const onSaveChanges = async () => {
             let trimmed = input.trim();
             if(trimmed === "")
@@ -21,6 +22,9 @@ const EditableInput = ({ initialValue,
                     theme:'colored',
                     position:'top-center'
                 });
+                await onSave(initialValue);
+                setIsEditable(false);
+                return;
             }
             if(trimmed !== initialValue)
             {

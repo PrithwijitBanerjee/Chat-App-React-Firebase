@@ -72,7 +72,7 @@ const AvatarUploadBtn = () => {
   }
   return (
     <>
-      <div className='mt-5 text-center'>
+      <div className='mt-2  text-center'>
         <label htmlFor='avatar-upload' className='d-block p-3' style={{ cursor: "pointer" }}>
           Select New Avatar
           <input

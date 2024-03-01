@@ -22,10 +22,11 @@ export const ProfileProvider = ({ children }) => {
                 userRef = ref(database, `profiles/${uid}`);
                 valueCallBack = onValue(userRef, (snapshot) => {
                     if (!!snapshot.val()) {
-                        const { createdAt, name } = snapshot.val();
+                        const { createdAt, name, avatar } = snapshot.val();
                         const userData = {
                             createdAt,
                             name,
+                            avatar,
                             email: user.email,
                             uid
                         }
