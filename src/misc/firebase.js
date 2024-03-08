@@ -16,12 +16,12 @@ const firebaseConfig = {
 };
 
 
-// Initialize Firebase
+// Initialize Firebase in your react application....
 export const app = initializeApp(firebaseConfig);
 
 
 // Initialize Firebase Authentication and get a reference to the service
-// App Instance of Authenticated user created in firebase project
+// Auth Instance of Current Authenticated user created in firebase project
 export const auth = getAuth(app);
 
 

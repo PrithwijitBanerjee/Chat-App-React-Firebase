@@ -21,7 +21,7 @@ const SignIn = () => {
           await set(ref(database,`profiles/${credential.user.uid}`),{
             name: credential?.user?.displayName,
             createdAt: serverTimestamp()
-          })
+          });
       }
       toast.success(`${credential.user.displayName} has signedIn Successfully`,{
         theme:'colored'

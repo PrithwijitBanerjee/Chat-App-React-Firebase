@@ -27,7 +27,7 @@ const ProfileConnect = () => {
             }
 
             {
-                connection['google.com'] && !connection['facebook.com'] && (
+                connection['facebook.com'] && !connection['facebook.com'] && (
                     <Container className='mt-4 mb-5'>
                         <Row>
                             <Col>
