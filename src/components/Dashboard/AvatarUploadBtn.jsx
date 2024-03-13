@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { allSupportedFiles, isValidFile } from '../../utlis/fileType'
+import { allSupportedFilesExtensions, isValidFile } from '../../utlis/fileType'
 import { Button, Modal } from 'react-bootstrap'
 import { toast } from 'react-toastify';
 import AvatarEditor from 'react-avatar-editor'
@@ -10,7 +10,7 @@ import { ref as userRef, set } from 'firebase/database';
 
 
 const getBlob = async canvas => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => { // Manually produce a promise as it takes time to convert individual blob(binary format) files from scaled canvas image before storing it to the firebase cloud storage.
     canvas.toBlob(blob => {
       if (blob) {
         resolve(blob);
@@ -24,10 +24,11 @@ const AvatarUploadBtn = () => {
   const [show, setShow] = useState(false);
   const [avatarFile, setAvatarFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const avatarEditorRef = useRef();
+  const avatarEditorRef = useRef(); // get the reference of native canvas element(Avatar Editor in react) in DOM
   const { profile } = useProfileContext(); // custom hooks
+
   const onUploadAvatar = async () => {
-    const canvasAvatarImg = avatarEditorRef.current.getImageScaledToCanvas();
+    const canvasAvatarImg = avatarEditorRef.current.getImageScaledToCanvas(); // this methods available in prototype chain of canvas element....
     setIsLoading(true);
     try {
       let blobFiles = await getBlob(canvasAvatarImg);
@@ -54,6 +55,7 @@ const AvatarUploadBtn = () => {
     }
 
   }
+
   const onFileChange = e => {
     let allFiles = e.target.files;
     if (allFiles.length === 1) {
@@ -79,7 +81,7 @@ const AvatarUploadBtn = () => {
             type='file'
             className='d-none'
             id='avatar-upload'
-            accept={allSupportedFiles.join()}
+            accept={allSupportedFilesExtensions.join()}
             onChange={onFileChange}
           />
         </label>

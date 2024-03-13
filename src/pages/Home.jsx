@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import DashBoardToggle from '../components/Dashboard/DashBoardToggle'
+import ChatRoomBtnModal from '../components/ChatRoom/ChatRoomBtnModal'
 
 const Home = () => {
   return (
@@ -9,6 +10,7 @@ const Home = () => {
           <Row>
             <Col xs={12} md={4}>
                 <DashBoardToggle />
+                <ChatRoomBtnModal />
             </Col>
           </Row>
         </Container>
