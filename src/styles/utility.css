@@ -1,10 +1,41 @@
-.text-align-center{
+.text-align-center {
     text-align: center;
 }
 
 
-.horizontal-divider-section{
+.horizontal-divider-section {
     border-bottom: 1px solid black;
     border-width: 100%;
     margin: 5px 15px;
+}
+
+.horizontal-divider-data-section {
+    flex-grow: 1;
+    /* This ensures the divider takes up available space */
+    height: 1px;
+    /* Adjust the height of the divider line */
+    background-color: #000;
+    /* Adjust the color of the divider line */
+    margin: auto 10px;
+    /* Adjust the margin as needed */
+}
+
+/* Scrollbar Track */
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    /* You can adjust the background color */
+}
+
+/* Scrollbar Handle */
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    /* You can adjust the scrollbar handle color */
+    border-radius: 5px;
+    /* You can adjust the border radius */
+}
+
+/* On hover, the scrollbar handle */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* You can adjust the scrollbar handle color on hover */
 }

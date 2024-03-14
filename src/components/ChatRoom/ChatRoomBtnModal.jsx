@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRocket } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,7 @@ const ChatRoomBtnModal = () => {
         return error;
     }
 
-    const handleInput = (e) => {
+    const handleInput = useCallback((e) => {
         if (e.target.name === "name") {
             setFormValue(prevFormValue => {
                 return { ...prevFormValue, [e.target.name]: e.target.value }
@@ -42,7 +42,7 @@ const ChatRoomBtnModal = () => {
                 return { ...prevFormValue, [e.target.name]: e.target.value }
             });
         }
-    }
+    }, []);
 
     const handleFormSubmit = async e => {
         e.preventDefault();
@@ -66,9 +66,9 @@ const ChatRoomBtnModal = () => {
                 theme: 'colored',
                 position: 'top-center'
             });
-            setIsLoading(false);
             setShow(false);
             setFormValue(INITIAL_FORM_VALUE);
+            setIsLoading(false);
         } catch (error) {
             toast.error(error?.message, {
                 theme: 'colored',
@@ -77,6 +77,11 @@ const ChatRoomBtnModal = () => {
             setIsLoading(false);
         }
     }
+
+    const handleReset = useCallback(() => {
+        setErr({});
+        setFormValue(INITIAL_FORM_VALUE);
+    }, []);
     return (
         <>
             <Button variant="outline-success w-75 mt-3" onClick={() => setShow(true)}>
@@ -126,10 +131,7 @@ const ChatRoomBtnModal = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant='info text-white w-100' onClick={handleFormSubmit}>Create New Chat Room</Button>
-                    <Button variant='secondary text-white w-100' onClick={() => {
-                        setErr({});
-                        setFormValue(INITIAL_FORM_VALUE);
-                    }}>Reset Room</Button>
+                    <Button variant='secondary text-white w-100' disabled={isLoading} onClick={handleReset}>Reset Room</Button>
                 </Modal.Footer>
             </Modal>
         </>
