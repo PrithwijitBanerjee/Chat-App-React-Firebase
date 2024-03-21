@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 const ChatBody = () => {
     return (
@@ -10,4 +10,4 @@ const ChatBody = () => {
     )
 }
 
-export default ChatBody
+export default memo(ChatBody) 

@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 const ChatFooter = () => {
     return (
         <>
-            <div style={{position:'fixed', bottom: '5px'}}>
+            <div style={{position:'absolute', bottom: '5px'}}>
                 <h3>ChatFooter</h3>
             </div>
         </>
     )
 }
 
-export default ChatFooter
+export default memo(ChatFooter)

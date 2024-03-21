@@ -3,11 +3,16 @@ import { useRooms } from '../context/room.context';
 import ChatTop from '../components/chat-window/ChatTop';
 import ChatBody from '../components/chat-window/ChatBody';
 import ChatFooter from '../components/chat-window/ChatFooter';
+import { CurrentRoomContextProvider } from '../context/current-room.context';
 
 const ChatPage = () => {
   const { id } = useParams();
   const rooms = useRooms();
   let currRoom = rooms ? rooms?.find(room => room.id === id) : null;
+  const currRoomData = { 
+    name: currRoom?.name,
+    description: currRoom?.description
+  }
   return (
     <>
       {
@@ -17,9 +22,11 @@ const ChatPage = () => {
       }
       {
         currRoom && Object.keys(currRoom).length > 1 && (<div className='d-flex justify-content-center flex-column'>
-          <ChatTop />
-          <ChatBody />
-          <ChatFooter />
+          <CurrentRoomContextProvider data={currRoomData}>
+            <ChatTop />
+            <ChatBody />
+            <ChatFooter />
+          </CurrentRoomContextProvider>
         </div>)
       }
     </>
