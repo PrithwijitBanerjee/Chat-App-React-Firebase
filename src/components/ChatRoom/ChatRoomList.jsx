@@ -10,7 +10,7 @@ const ChatRoomList = () => {
                     <Col>
                         <div
                             style={{
-                                maxHeight: '500px',
+                                maxHeight: '400px',
                                 overflowY: 'scroll',
                                 width: '78%',
                                 marginTop: '60px',
